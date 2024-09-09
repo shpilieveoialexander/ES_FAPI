@@ -84,7 +84,7 @@ def update_post(
         updated_post = db.scalars(post_query).one_or_none()
 
     # Update the item in Elasticsearch
-    index_item(updated_post.id, updated_post.title, updated_post.description)
+    index_item(updated_post)
 
     return updated_post
 
