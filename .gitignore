@@ -1,0 +1,39 @@
+############################
+# Compiled Python bytecode #
+############################
+*.py[cod]
+__pycache__/
+.mypy_cache/
+celerybeat-schedule
+
+#############
+# Log files #
+#############
+*.log
+
+###################
+# IDE directories #
+###################
+.idea/
+.vscode/
+
+##############
+# Test cache #
+##############
+.pytest_cache
+
+#####################
+# Large media files #
+#####################
+*.mp4
+*.tiff
+*.avi
+*.flv
+*.mov
+*.wmv
+
+##################
+# Security files #
+##################
+.ssh/
+.env
