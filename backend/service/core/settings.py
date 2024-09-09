@@ -61,6 +61,13 @@ class Settings(BaseSettings):
     ###########
     ADMINER_PORT: int = os.getenv("ADMINER_PORT")
 
+    #################
+    # ELASTICSEARCH #
+    #################
+
+    ES_HOST: str = os.getenv("ES_HOST")
+    ES_PORT: int = os.getenv("ES_PORT")
+
     class Config:
         case_sensitive = True
 
