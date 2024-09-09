@@ -5,20 +5,12 @@ from sqlalchemy import delete, select, update
 
 from db import models
 from db.session import DBSession, get_session
-from service.es.elasticsearch_client import (INDEX_NAME, create_index,
-                                             create_item,
-                                             delete_item_from_index,
-                                             ensure_index_exists, es,
+from service.es.elasticsearch_client import (INDEX_NAME, create_item,
+                                             delete_item_from_index, es,
                                              update_item)
 from service.schemas import v1 as schemas_v1
 
 router = APIRouter()
-
-
-# Ensure the Elasticsearch index exists
-def ensure_index_exists():
-    if not es.indices.exists(index=INDEX_NAME):
-        create_index()
 
 
 # Create a new item
