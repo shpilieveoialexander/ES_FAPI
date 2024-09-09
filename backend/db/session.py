@@ -12,3 +12,8 @@ engine = create_engine(
 
 # Crete session maker
 DBSession = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
+
+
+def get_session() -> DBSession:
+    """Return DB session and close after using"""
+    return DBSession
