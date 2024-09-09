@@ -37,12 +37,22 @@ def create_index():
             logger.error(f"Error creating index '{INDEX_NAME}': {e}")
 
 
-def index_item(item: schemas_v1.PostResponse):
+def create_item(item: schemas_v1.PostResponse):
     try:
         es.index(index=INDEX_NAME, id=item.id, body=item.dict())
         logger.info(f"Indexed item with id {item.id}")
     except Exception as e:
         logger.error(f"Error indexing item with id {item.id}: {e}")
+
+
+def update_item(item: schemas_v1.PostResponse):
+    try:
+        update_body = {"doc": item.dict()}
+        logger.info(f"Updating item in Elasticsearch with ID {item.id}")
+        es.update(index=INDEX_NAME, id=item.id, body=update_body)
+        logger.info(f"Updated item with id {item.id} in Elasticsearch")
+    except Exception as e:
+        logger.error(f"Error updating item with id {item.id}: {e}")
 
 
 def delete_item_from_index(item_id: int):

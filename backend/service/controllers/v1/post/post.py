@@ -6,9 +6,10 @@ from sqlalchemy import delete, select, update
 from db import models
 from db.session import DBSession, get_session
 from service.es.elasticsearch_client import (INDEX_NAME, create_index,
+                                             create_item,
                                              delete_item_from_index,
                                              ensure_index_exists, es,
-                                             index_item)
+                                             update_item)
 from service.schemas import v1 as schemas_v1
 
 router = APIRouter()
@@ -38,7 +39,7 @@ def create_post(
         db.commit()
         db.refresh(post)
 
-    index_item(schemas_v1.PostResponse.from_orm(post))
+    create_item(schemas_v1.PostResponse.from_orm(post))
 
     return post
 
@@ -82,11 +83,12 @@ def update_post(
         db.execute(update_post_query)
         db.commit()
         updated_post = db.scalars(post_query).one_or_none()
+    updated_post_response = schemas_v1.PostResponse.from_orm(updated_post)
 
     # Update the item in Elasticsearch
-    index_item(updated_post)
+    update_item(updated_post_response)
 
-    return updated_post
+    return updated_post_response
 
 
 @router.delete("/{post_id}", status_code=status.HTTP_204_NO_CONTENT)
