@@ -89,3 +89,19 @@ def bulk_index():
 def ensure_index_exists():
     if not es.indices.exists(index=INDEX_NAME):
         create_index()
+
+
+def search_indexes(query):
+    search_body = {
+        "query": {
+            "multi_match": {
+                "query": query,
+                "fields": ["title", "description"],
+            }
+        }
+    }
+
+    response = es.search(index=INDEX_NAME, body=search_body)
+    hits = response.get("hits", {}).get("hits", [])
+    item_ids = [int(hit["_id"]) for hit in hits]
+    return item_ids
