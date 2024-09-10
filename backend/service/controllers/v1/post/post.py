@@ -102,12 +102,6 @@ def delete_post(post_id: int, session: DBSession = Depends(get_session)):
 @router.get("/search/", response_model=Page[schemas_v1.PostResponse])
 async def search_posts(query: str, session: DBSession = Depends(get_session)):
     item_ids = search_indexes(query=query)
-
-    if not item_ids:
-        posts_query = select(models.Post).where(models.Post.id == -1)
-        with session() as db:
-            return paginate(db, posts_query)
-
     posts_query = select(models.Post).where(models.Post.id.in_(item_ids))
     with session() as db:
         return paginate(db, posts_query)
